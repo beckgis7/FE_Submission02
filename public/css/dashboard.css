@@ -52,7 +52,12 @@
 .sidebar .nav-links li a:hover {
   background: #f0f0f0;
 }
-
+.sidebar .nav-links li a:focus {
+  border: 1px solid#acacac;
+}
+.logout:hover {
+  background: #f56565 !important;
+}
 .sidebar .nav-links li i {
   min-width: 60px;
   text-align: center;
