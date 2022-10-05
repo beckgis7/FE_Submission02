@@ -1,6 +1,6 @@
 
 // Login user check
-async function signIn() {
+async function signIn(event) {
     sessionStorage.clear;
     let uname = document.querySelector("#username").value;
     let pwd = document.querySelector("#password").value;
@@ -28,12 +28,14 @@ async function signIn() {
         sessionStorage.setItem("refresh_token", data.refresh_token);
         console.log(data);
         if (sessionStorage.getItem("access_token")) {
-            // alert('Login Successful Redirecting...');
+            alert('Login Successful Redirecting...');
             //Redirecting to dashboard.
-            window.location = "../dashboard/index.html";
-            window.location.href(`${window.location}`);
-
-            // window.open('file:/dashboard/index.html');
+            window.setTimeout(
+                function () {
+                    window.location = "./dashboard.html";
+                    window.location.href(`${window.location}`);
+                }, 2000);
+            
             return false;
         } else if (data.msg) {
             alert("Wrong Username or Password");

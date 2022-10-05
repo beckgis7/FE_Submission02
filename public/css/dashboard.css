@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 240px;
+  transition: all 0.5s ease;
+  border-right: #9c9c9cd0 2px solid;
+  align-items: center;
+}
+
+.sidebar.active {
+  width: 60px;
+}
+
+.sidebar .img {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar .nav-links {
+  margin-top: 2rem;
+}
+
+.sidebar .nav-links li {
+  position: relative;
+  list-style: none;
+  height: 50px;
+}
+
+.sidebar .nav-links li a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 3rem;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.sidebar .nav-links li a.active {
+  background: #f1f1f1;
+}
+
+.sidebar .nav-links li a:hover {
+  background: #f0f0f0;
+}
+
+.sidebar .nav-links li i {
+  min-width: 60px;
+  text-align: center;
+  font-size: 18px;
+  color: #272727;
+}
+
+.sidebar .nav-links li a .links_name {
+  color: #353535;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.sidebar .nav-links .log_out {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.title {
+  font-size: 30px;
+  color: #5e5e5e;
+}
+
+.main {
+  position: relative;
+  background: #ffffff;
+  min-height: 100vh;
+  width: calc(100% - 240px);
+  left: 240px;
+  transition: all 0.5s ease;
+}
+
+.sidebar.active~.main {
+  width: calc(100% - 60px);
+  left: 60px;
+}
+
+.main nav {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - 240px);
+  padding: 0 2rem;
+  transition: all 0.5s ease;
+}
+
+.sidebar.active~.main nav {
+  left: 60px;
+  width: calc(100% - 60px);
+}
+
+.dashboard {
+  padding: 4rem 3rem 1rem 3rem;
+}
+
+.dashboard .card {
+  display: flex;
+}
+
+.dashboard .card .cards {
+  border: 3px solid #d6d6d6;
+  width: 25%;
+  padding: 1rem;
+  margin: 2%;
+}
+
+.cards .period,
+.amount {
+  margin: 1rem;
+  color: #504f4f;
+}
+
+.revenue {
+  padding: 1rem 3rem;
+}
+
+.revenue .card {
+  border: 3px solid #d6d6d6;
+  width: 70%;
+  height: 200px;
+  padding: 1rem;
+  margin: 2%;
+}
+
+.bestseller {
+  padding: 1rem 3rem;
+}
+
+.bestseller .card {
+  border: 3px solid #d6d6d6;
+  width: 96%;
+  height: 300px;
+  padding: 1rem;
+  margin: 2%;
+}
