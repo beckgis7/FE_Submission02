@@ -255,3 +255,7 @@ input:checked+.slider:before {
 .catTable {
   align-items: flex-start;
 }
+th {
+  color: #5e5e5e;
+  text-align: left;
+}

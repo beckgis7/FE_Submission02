@@ -2,10 +2,10 @@ let Days = true;
 
 let dayOrder;
 let dayTotal;
-let weekOrder;
-let weekTotal;
-let yearOrder;
-let yearTotal;
+let weekOrder = 0;
+let weekTotal = 0;
+let yearOrder = 0;
+let yearTotal = 0;
 let weekArray = new Array();
 let yearArray = new Array();
 
@@ -59,15 +59,24 @@ window.onload = async function () {
             dayOrder = weekTime[1].orders;
             dayTotal = yearTime[1].total;
 
+            // for (var i in weekTime) {
+            //     weekOrder.push([i, weekTime[i].orders]);
+            //     weekTotal.push([i, weekTime[i].total]);
+            // }
 
-            for (let i = 1; i < weekTime.length; i++) {
-                weekOrder =+ weekTime[i].orders;
-                weekTotal =+ weekTime[i].total;
+            // for (var i in yearTime) {
+            //     yearOrder.push([i, yearTime[i].orders]);
+            //     yearTotal.push([i, yearTime[i].total]);
+            // }
+
+            for (let i = 0; i < weekTime.length; i++) {
+                weekOrder += weekTime[i].orders;
+                weekTotal += weekTime[i].total;
                 weekArray.push(weekTime[i].total);
             };
-            for (let i = 1; i < yearTime.length; i++) {
-                yearOrder =+ yearTime[i].orders;
-                yearTotal =+ yearTime[i].total;
+            for (let i = 0; i < yearTime.length; i++) {
+                yearOrder += yearTime[i].orders;
+                yearTotal += yearTime[i].total;
                 yearArray.push(yearTime[i].total);
             }
 
