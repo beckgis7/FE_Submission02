@@ -57,7 +57,7 @@ async function previousPage() {
     if (prevData.msg) {
         alert(prevData.msg);
     } else {
-        renderTable(prevData);
+        renderTable(prevData.orders);
     }
 }
 
@@ -68,7 +68,7 @@ async function nextPage() {
     if (nextData.msg) {
         alert(nextData.msg);
     } else {
-        renderTable(nextData);
+        renderTable(nextData.orders);
     }
 }
 async function search(srchParam) {
@@ -77,7 +77,7 @@ async function search(srchParam) {
     if (searchData.msg) {
         alert(searchData.msg);
     } else {
-        renderTable(searchData);
+        renderTable(searchData.orders);
     }
 }
 

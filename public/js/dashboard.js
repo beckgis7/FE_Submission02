@@ -80,8 +80,8 @@ window.onload = async function () {
                 yearArray.push(yearTime[i].total);
             }
 
-            console.log(week);
-            console.log(year);
+            console.log(weekArray);
+            console.log(yearArray);
 
             document.querySelector(".day").innerHTML = `${dayTotal}/ ${dayOrder} Orders`;
             document.querySelector(".week").innerHTML = `${weekTotal}/ ${weekOrder} Orders`;
