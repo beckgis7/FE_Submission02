@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Dashboard | Freddys</title>
     <link rel="stylesheet" href="./css/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
   <div class="sidebar">
@@ -53,9 +54,17 @@
       </div>
     </div>
     <div class="revenue">
-        <span class="title">Revenue (Last 7 days)</span>
-        <div class="card">
+      <div class="rev">
+        <span class="title">Revenue (last 7 days)</span>
+        <label class="switch">
+          <input type="checkbox" id="revtoggle">
+          <span class="slider round"></span>
+        </label>
       </div>
+        <div class="card">
+          <canvas id="myDays" width="100%" height="45%"></canvas>
+          <canvas id="myMonths" width="100%" height="45%"></canvas>
+        </div>
     </div>
     <div class="bestseller">
       <span class="title">Bestsellers</span>
@@ -63,6 +72,27 @@
     </div>
   </div>
   </section>
+
+
+
   <script src="./js/dashboard.js"></script>
+  <script>
+    const myDays = new Chart(
+      document.getElementById('myDays'),
+      config = {
+        type: 'bar',
+        data: day_data,
+        options: {}
+      }
+    );  
+    const myMonths = new Chart(
+      document.getElementById('myMonths'),
+      config = {
+        type: 'bar',
+        data: month_data,
+        options: {}
+      }
+    );
+  </script>
 </body>
 </html>

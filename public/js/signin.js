@@ -5,10 +5,10 @@ async function signIn(event) {
     let uname = document.querySelector("#username").value;
     let pwd = document.querySelector("#password").value;
     if (uname == '') {
-        alert("please enter username.");
+        alert("Please enter username.");
     }
     else if (pwd == '') {
-        alert("enter the password.");
+        alert("Please enter the password.");
     }
     else if (pwd.length < 5) {
         alert("Password min length is 5.");
@@ -38,6 +38,8 @@ async function signIn(event) {
             
             return false;
         } else if (data.msg) {
+            alert(data.msg);
+        } else {
             alert("Wrong Username or Password");
         }
 
