@@ -152,7 +152,7 @@
 .revenue .card canvas {
   position: absolute;
 }
-#myMonths {
+.see {
   visibility: hidden;
 }
 .rev {
@@ -231,4 +231,8 @@ input:checked+.slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.catTable {
+  align-items: flex-start;
 }

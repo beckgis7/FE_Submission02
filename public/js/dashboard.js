@@ -1,10 +1,7 @@
 let Days = true;
 let revtoggle = document.querySelector("#revtoggle").addEventListener("click", function () {
-    if (Days) {
-        Days = false;
-    } else if (!Days) {
-        Days = true;
-    }
+    document.querySelector(".myDays").classList.toggle("see");
+    document.querySelector(".myMonths").classList.toggle("see");
 });
 
 async function getData(link, token_type, Method) {
@@ -24,8 +21,7 @@ function logout() {
 window.onload = function () {
     if (sessionStorage.getItem("access_token")) {
         const data = getData("dashboard", "access_token","GET");
-        console.log(data.dashboard);
-        sessionStorage.setItem("data", data);
+        console.log(data);
         if (data.msg) {
             alert(data.msg);
         } else {
@@ -93,7 +89,7 @@ const month_data = {
     labels: month_labels,
     datasets: [{
         label: "Revenue (12 Months)",
-        data: [10, 20, 30, 40, 50, 60, 70],
+        data: [10, 20, 30, 40, 50, 60, 70, 40, 50, 60, 70, 85],
         backgroundColor: [
             'rgba(201, 203, 207, 0.2)'
         ],
@@ -104,3 +100,6 @@ const month_data = {
         barThickness: 30
     }]
 };
+
+
+

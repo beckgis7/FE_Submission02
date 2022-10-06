@@ -62,14 +62,27 @@
         </label>
       </div>
         <div class="card">
-          <canvas id="myDays" width="100%" height="45%"></canvas>
-          <canvas id="myMonths" width="100%" height="45%"></canvas>
+          <canvas id="myDays" class="myDays" width="100%" height="45%"></canvas>
+          <canvas id="myMonths" class="myMonths see" width="100%" height="45%"></canvas>
         </div>
     </div>
     <div class="bestseller">
       <span class="title">Bestsellers</span>
       <div class="card">
-    </div>
+        <table id="catTable" width="100%">
+          <thead>
+            <tr>
+              <th data-sort="name">Product Name</th>
+              <th data-sort="date">Date</th>
+              <th data-sort="price">Price</th>
+              <th data-sort="status">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="4"><i>Loading...</i></td></tr>
+          </tbody>
+        </table>
+      </div>
   </div>
   </section>
 

@@ -124,3 +124,14 @@ nav .search-box input {
     padding: 0.2rem 1rem;
     margin-right: 1rem;
 }
+.container {
+    align-items: center;
+    justify-content:unpleaset;
+}
+.container .card {
+            border: 3px solid #d6d6d6;
+            width: 96%;
+            height: 300px;
+            padding: 1rem;
+            margin: 2%;
+        }

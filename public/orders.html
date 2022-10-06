@@ -40,6 +40,25 @@
         <input type="text" placeholder="Search...">
       </div>
     </nav>
+    <div class="container">
+      <div class="card">
+        <table id="catTable" width="100%">
+          <thead>
+            <tr>
+              <th data-sort="name">Product Name</th>
+              <th data-sort="date">Date</th>
+              <th data-sort="price">Price</th>
+              <th data-sort="status">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="4"><i>Loading...</i></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <a id="prevButton">1</a>
+       <a id="nextButton">2</a>
+    </div>
   </section>
   <script src="./js/orders.js"></script>
 </body>
