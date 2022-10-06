@@ -1,4 +1,19 @@
 let Days = true;
+
+let dayOrder;
+let dayTotal;
+let weekOrder;
+let weekTotal;
+let yearOrder;
+let yearTotal;
+let weekArray = new Array();
+let yearArray = new Array();
+
+let data, table, sortCol;
+let sortAsc = false;
+const pageSize = 3;
+let curPage = 1;
+
 let revtoggle = document.querySelector("#revtoggle").addEventListener("click", function () {
     document.querySelector(".myDays").classList.toggle("see");
     document.querySelector(".myMonths").classList.toggle("see");
@@ -12,23 +27,66 @@ async function getData(link, token_type, Method) {
     return await response.json();
 }
 
-function logout() {
-    sessionStorage.clear;
-    window.location = "./signin.html";
-    window.location.href(`${window.location}`);
-}
+// TABLE LOGIC 
+function renderTable(block) {
+    // create html
+    let result = '';
+    block.forEach(row => {
+        result += `<tr>
+     <td>${row.product["name"]}</td>
+     <td>${row.created_at}</td>
+     <td>${row.units}</td>
+     <td>${row.revenue}</td>
+     </tr>`;
+    });
 
-window.onload = function () {
+    document.querySelector('#catTable tbody').innerHTML = result;
+}
+window.onload = async function () {
+    
     if (sessionStorage.getItem("access_token")) {
-        const data = getData("dashboard", "access_token","GET");
-        console.log(data);
+        const data = await getData("dashboard", "access_token","GET");
+        console.log(data.dashboard);
+        const bestSeller = data.dashboard.bestsellers;
+        const weekTime = data.dashboard.sales_over_time_week;
+        const yearTime = data.dashboard.sales_over_time_year;
+        console.log(bestSeller);
+        console.log(weekTime);
+        console.log(yearTime);
         if (data.msg) {
             alert(data.msg);
         } else {
+            dayOrder = data["dashboard"]["sales_over_time_week"][1].orders;
+            dayTotal = data["dashboard"]["sales_over_time_week"][1].total;
+
+            // weekTime.forEach(row => {
+            //     weekOrder += row.orders;
+            //     weekTotal += row.total;
+            //     weekArray.push(row.total);
+            // });
+            // yearTime.forEach(row => {
+            //     weekOrder += row.orders;
+            //     weekTotal += row.total;
+            //     weekArray.push(row.total);
+            // });
+
+            for (i = 1; i <= weekTime.length; i++) {
+                weekArray.push(weekTime[i].total);
+            }   
+            for (i = 1; i <= yearTime.length; i++) {
+                yearArray.push(yearTime[i].total);
+            }
+            console.log(weekArray);
+            console.log(yearArray);
+
+            document.querySelector(".day").innerHTML = `${dayTotal}/ ${dayOrder} Orders`;
+            document.querySelector(".week").innerHTML = `${weekTotal}/ ${weekOrder} Orders`;
+            document.querySelector(".year").innerHTML = `${yearTotal}/ ${yearOrder} Orders`;
+            renderTable(bestSeller); 
 
         }
-        setInterval(function () {
-            newToken = getData("refresh", "refresh_token", "POST");
+        setInterval(async function () {
+            newToken = await getData("refresh", "refresh_token", "POST");
             console.log(newToken);
             if (newToken.msg) {
                 alert(newToken.msg);
@@ -73,7 +131,7 @@ const day_data = {
     labels: day_labels,
     datasets: [{
         label: "Revenue (last 7 days)",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: weekArray,
         backgroundColor: [
             'rgba(201, 203, 207, 0.2)'
         ],
@@ -89,7 +147,7 @@ const month_data = {
     labels: month_labels,
     datasets: [{
         label: "Revenue (12 Months)",
-        data: [10, 20, 30, 40, 50, 60, 70, 40, 50, 60, 70, 85],
+        data: yearArray,
         backgroundColor: [
             'rgba(201, 203, 207, 0.2)'
         ],
@@ -103,3 +161,8 @@ const month_data = {
 
 
 
+function logout() {
+    sessionStorage.clear;
+    window.location = "./signin.html";
+    window.location.href(`${window.location}`);
+}

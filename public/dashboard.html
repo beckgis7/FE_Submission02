@@ -9,6 +9,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+  <div class="bar">
+    <div class="circle red"></div>
+    <div class="circle yellow"></div>
+    <div class="circle green"></div>
+  </div>
   <div class="sidebar">
     <div class="img"><img src="./img/Freddys_Logo.svg" width="100px" height="100px"></div>
     <div class="links">
@@ -32,24 +37,25 @@
     </div>
   </div>
   <section class="main">
-    <nav>
+    <!-- <nav>
       <div class="sidebar-title">
         <span class="title">Dashboard</span>
       </div>
-    </nav>
+    </nav> -->
     <div class="dashboard">
+        <span class="title">Dashboard</span>
       <div class="card">
         <div class="cards">
           <div class="period">Today</div>
-          <div class="amount">$1456/ 9 Orders</div>
+          <div class="amount day"></div>
+        </div>
+        <div class="cards">
+          <div class="period">Last Week</div>
+          <div class="amount week"></div>
         </div>
         <div class="cards">
           <div class="period">Today</div>
-          <div class="amount">$1456/ 9 Orders</div>
-        </div>
-        <div class="cards">
-          <div class="period">Today</div>
-          <div class="amount">$1456/ 9 Orders</div>
+          <div class="amount year"></div>
         </div>
       </div>
     </div>
@@ -74,8 +80,8 @@
             <tr>
               <th data-sort="name">Product Name</th>
               <th data-sort="date">Date</th>
-              <th data-sort="price">Price</th>
-              <th data-sort="status">Status</th>
+              <th data-sort="init"># Unit Sold</th>
+              <th data-sort="rev">Revenue</th>
             </tr>
           </thead>
           <tbody>

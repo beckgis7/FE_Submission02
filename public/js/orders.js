@@ -15,36 +15,29 @@ async function getData(link, token_type, Method) {
 function renderTable(block) {
     // create html
     let result = '';
-    // block.forEach(row => {
-    //     result += `<tr>
-    //  <td>${row.name}</td>
-    //  <td>${row.date}</td>
-    //  <td>${row.price}</td>
-    //  <td>${row.status}</td>
-    //  </tr>`;
-    // });
-    for (let i = 0; i = block.length; i++) {
+    block.forEach(row => {
         result += `<tr>
-     <td>${row.name}</td>
-     <td>${row.date}</td>
-     <td>${row.price}</td>
+     <td>${row.product["name"]}</td>
+     <td>${row.created_at}</td>
+     <td>${row.total}</td>
      <td>${row.status}</td>
      </tr>`;
-    }
+    });
+    
     document.querySelector('#catTable tbody').innerHTML = result;
-}
+}   
 
-window.onload = function () {
+window.onload = async function () {
     if (sessionStorage.getItem("access_token")) {
-        const DATA = getData(`orders?page=${curPage}&q=${search}`, "access_token", "GET");
-        console.log(DATA);
+        const DATA = await getData(`orders?page=${curPage}&q=${search}`, "access_token", "GET");
+        console.log(DATA.orders);
         if (DATA.msg) {
             alert(DATA.msg);
         } else {
-            renderTable(DATA); 
+            renderTable(DATA.orders); 
         }
-        setInterval(function () {
-            newToken = getData("refresh", "refresh_token", "POST");
+        setInterval(async function () {
+            newToken = await getData("refresh", "refresh_token", "POST");
             console.log(newToken);
             if (newToken.msg) {
                 alert(newToken.msg);
@@ -57,9 +50,9 @@ window.onload = function () {
         window.location.href(`${window.location}`);
     }
 }
-function previousPage() {
+async function previousPage() {
     if (curPage > 1) curPage--;
-    const prevData = getData(`orders?page=${curPage}`, "access_token", "GET");
+    const prevData = await getData(`orders?page=${curPage}`, "access_token", "GET");
     console.log(prevData);
     if (prevData.msg) {
         alert(prevData.msg);
@@ -68,9 +61,9 @@ function previousPage() {
     }
 }
 
-function nextPage() {
+async function nextPage() {
     if ((curPage * pageSize) < data.length) curPage++;
-    const nextData = getData(`orders?page=${curPage}`, "access_token", "GET");
+    const nextData = await getData(`orders?page=${curPage}`, "access_token", "GET");
     console.log(nextData);
     if (nextData.msg) {
         alert(nextData.msg);
@@ -78,8 +71,8 @@ function nextPage() {
         renderTable(nextData);
     }
 }
-function search(curP, srchParam) {
-    const searchData = getData(`orders?page=${curP}&q=${srchParam}`, "access_token", "GET");
+async function search(srchParam) {
+    const searchData = await getData(`orders?page=${curPage}&q=${srchParam.value}`, "access_token", "GET");
     console.log(searchData);
     if (searchData.msg) {
         alert(searchData.msg);

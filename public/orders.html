@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="./css/orders.css">
 </head>
 <body>
+  <div class="bar">
+    <div class="circle red"></div>
+    <div class="circle yellow"></div>
+    <div class="circle green"></div>
+  </div>
   <div class="sidebar">
     <div class="img"><img src="./img/Freddys_Logo.svg" width="100px" height="100px"></div>
     <div class="links">
@@ -36,8 +41,10 @@
         <span class="title">Orders</span>
       </div>
       <div class="search-box">
-        <i class='bx bx-search'>ok</i>
-        <input type="text" placeholder="Search...">
+        <a>
+        <i class='bx bx-search'>ok</i> 
+        </a>
+        <input type="text" id="search" name="search" placeholder="Search..." onchange="search(this)" >
       </div>
     </nav>
     <div class="container">
@@ -56,8 +63,10 @@
           </tbody>
         </table>
       </div>
-      <a id="prevButton">1</a>
-       <a id="nextButton">2</a>
+      <div class="paging">
+        Page <a id="prevButton">1</a> of <a id="nextButton">2</a>
+      </div>
+      
     </div>
   </section>
   <script src="./js/orders.js"></script>
