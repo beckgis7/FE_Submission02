@@ -56,28 +56,23 @@ window.onload = async function () {
         if (data.msg) {
             alert(data.msg);
         } else {
-            dayOrder = data["dashboard"]["sales_over_time_week"][1].orders;
-            dayTotal = data["dashboard"]["sales_over_time_week"][1].total;
+            dayOrder = weekTime[1].orders;
+            dayTotal = yearTime[1].total;
 
-            // weekTime.forEach(row => {
-            //     weekOrder += row.orders;
-            //     weekTotal += row.total;
-            //     weekArray.push(row.total);
-            // });
-            // yearTime.forEach(row => {
-            //     weekOrder += row.orders;
-            //     weekTotal += row.total;
-            //     weekArray.push(row.total);
-            // });
-
-            for (i = 1; i <= weekTime.length; i++) {
+            for (let i = 1; i < weekTime.length; i++) {
+                weekOrder =+ weekTime[i].orders;
+                weekTotal =+ weekTime[i].total;
                 weekArray.push(weekTime[i].total);
             }   
-            for (i = 1; i <= yearTime.length; i++) {
+            for (let i = 1; i < yearTime.length; i++) {
+                yearOrder =+ yearTime[i].orders;
+                yearTotal =+ yearTime[i].total;
                 yearArray.push(yearTime[i].total);
             }
+
+            console.log(weekOrder);
+            console.log(weekTotal);
             console.log(weekArray);
-            console.log(yearArray);
 
             document.querySelector(".day").innerHTML = `${dayTotal}/ ${dayOrder} Orders`;
             document.querySelector(".week").innerHTML = `${weekTotal}/ ${weekOrder} Orders`;
@@ -127,37 +122,37 @@ const month_labels = [
     'month 12'
 ];
 
-const day_data = {
-    labels: day_labels,
-    datasets: [{
-        label: "Revenue (last 7 days)",
-        data: weekArray,
-        backgroundColor: [
-            'rgba(201, 203, 207, 0.2)'
-        ],
-        borderColor: [
-            'rgb(201, 203, 207)'
-        ],
-        borderWidth: 1,
-        barThickness: 30
-    }]
-};
+// const day_data = {
+//     labels: day_labels,
+//     datasets: [{
+//         label: "Revenue (last 7 days)",
+//         data: weekArray,
+//         backgroundColor: [
+//             'rgba(201, 203, 207, 0.2)'
+//         ],
+//         borderColor: [
+//             'rgb(201, 203, 207)'
+//         ],
+//         borderWidth: 1,
+//         barThickness: 30
+//     }]
+// };
 
-const month_data = {
-    labels: month_labels,
-    datasets: [{
-        label: "Revenue (12 Months)",
-        data: yearArray,
-        backgroundColor: [
-            'rgba(201, 203, 207, 0.2)'
-        ],
-        borderColor: [
-            'rgb(201, 203, 207)'
-        ],
-        borderWidth: 1,
-        barThickness: 30
-    }]
-};
+// const month_data = {
+//     labels: month_labels,
+//     datasets: [{
+//         label: "Revenue (12 Months)",
+//         data: yearArray,
+//         backgroundColor: [
+//             'rgba(201, 203, 207, 0.2)'
+//         ],
+//         borderColor: [
+//             'rgb(201, 203, 207)'
+//         ],
+//         borderWidth: 1,
+//         barThickness: 30
+//     }]
+// };
 
 
 
