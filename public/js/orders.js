@@ -22,7 +22,7 @@ function renderTable(block, page) {
     // create html
     let result = '';
     if (block != null) {
-        block.forEach(row => {
+        block.slice(-10).forEach(row => {
             result += `<tr>
             <td>${row.product["name"]}</td>
             <td>${row.created_at}</td>
@@ -68,7 +68,7 @@ window.onload = async function () {
         if (intDATA.msg) {
             alert(intDATA.msg);
         } else {
-            totalPages = numPages(intDATA.orders);;
+            totalPages = numPages(intDATA.orders);
             console.log(totalPages);
             renderTable(intDATA.orders, current_page); 
         }
@@ -86,21 +86,20 @@ window.onload = async function () {
         window.location.href(`${window.location}`);
     }
 }
-async function previousPage() {
+function previousPage() {
     if (current_page > 1) { 
         current_page--;
         renderTable(null, current_page);
     }
 }
 
-async function nextPage() {
-    if ((current_page * records_per_page) < data.length) {
+function nextPage() {
+    if ((current_page * records_per_page) < intDATA.length) {
         current_page++;
         renderTable(null, current_page);
     }
 }
 async function search(srchParam) {
-    
     const searchData = await getData(`orders?page=${current_page}&q=${srchParam.value}`, "access_token", "GET");
     console.log(searchData);
     if (searchData.msg) {

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Freddys</title>
     <link rel="stylesheet" href="./css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
@@ -61,7 +62,7 @@
     </div>
     <div class="revenue">
       <div class="rev">
-        <span class="title">Revenue (last 7 days)</span>
+        <span class="title">Revenue</span>
         <label class="switch">
           <input type="checkbox" id="revtoggle">
           <span class="slider round"></span>
@@ -79,7 +80,7 @@
           <thead>
             <tr>
               <th data-sort="name">Product Name</th>
-              <th data-sort="date">Date</th>
+              <!-- <th data-sort="date">Date</th> -->
               <th data-sort="init"># Unit Sold</th>
               <th data-sort="rev">Revenue</th>
             </tr>
@@ -89,6 +90,9 @@
           </tbody>
         </table>
       </div>
+      <div class="paging">
+        <a href="javascript:prevPage()" id="btn_prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a> page: <span id="page_at"></span> of <span id="page_total"></span> <a href="javascript:nextPage()" id="btn_next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
   </div>
   </section>
 
@@ -96,21 +100,80 @@
 
   <script src="./js/dashboard.js"></script>
   <script>
+    let day_labels = [
+        'today',
+        'yesterday',
+        'day3',
+        'day4',
+        'day5',
+        'day6',
+        'day7',
+    ];
+    let month_labels = [
+        'this month',
+        'last month',
+        'month 3',
+        'month 4',
+        'month 5',
+        'month 6',
+        'month 7',
+        'month 8',
+        'month 9',
+        'month 10',
+        'month 11',
+        'month 12'
+    ];
+
+    let day_data = {
+        labels: day_labels,
+        datasets: [{
+            label: "Revenue (last 7 days)",
+            // data: [65, 59, 80, 81, 56, 55, 40],
+            data: Days,
+            backgroundColor: [
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1,
+            barThickness: 30
+        }]
+    };
+
+    let month_data = {
+        labels: month_labels,
+        datasets: [{
+            label: "Revenue (12 Months)",
+            // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 90, 25],
+            data: Months,
+            backgroundColor: [
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1,
+            barThickness: 30
+        }]
+    };
+ </script>
+ <script>
     const myDays = new Chart(
-      document.getElementById('myDays'),
-      config = {
-        type: 'bar',
-        data: day_data,
-        options: {}
-      }
-    );  
+        document.getElementById('myDays'),
+        config = {
+            type: 'bar',
+            data: day_data,
+            options: {}
+        }
+    );
     const myMonths = new Chart(
-      document.getElementById('myMonths'),
-      config = {
-        type: 'bar',
-        data: month_data,
-        options: {}
-      }
+        document.getElementById('myMonths'),
+        config = {
+            type: 'bar',
+            data: month_data,
+            options: {}
+        }
     );
   </script>
 </body>

@@ -1,7 +1,22 @@
-let Days = true;
+let current_page = 1;
+const records_per_page = 10;
+let totalPages = 0;
+let intDATA = null;
+
+let Days;
+let Months;
+
+let listing_table = document.querySelector('#catTable tbody');
+const btn_next = document.getElementById("btn_next");
+const btn_prev = document.getElementById("btn_prev");
+let page_at = document.getElementById("page_at");
+let page_total = document.getElementById("page_total");
 
 let dayOrder;
 let dayTotal;
+let bestSeller;
+let weekTime;
+let yearTime;
 let weekOrder = 0;
 let weekTotal = 0;
 let yearOrder = 0;
@@ -16,125 +31,44 @@ let sortAsc = false;
 const pageSize = 3;
 let curPage = 1;
 
+
 let revtoggle = document.querySelector("#revtoggle").addEventListener("click", function () {
     document.querySelector(".myDays").classList.toggle("see");
     document.querySelector(".myMonths").classList.toggle("see");
 });
 
-const day_labels = [
-    'today',
-    'yesterday',
-    'day3',
-    'day4',
-    'day5',
-    'day6',
-    'day7',
-];
-const month_labels = [
-    'this month',
-    'last month',
-    'month 3',
-    'month 4',
-    'month 5',
-    'month 6',
-    'month 7',
-    'month 8',
-    'month 9',
-    'month 10',
-    'month 11',
-    'month 12'
-];
-
-const day_data = {
-    labels: day_labels,
-    datasets: [{
-        label: "Revenue (last 7 days)",
-        // data: [65, 59, 80, 81, 56, 55, 40],
-        data: weektotalArray,
-        backgroundColor: [
-            'rgba(201, 203, 207, 0.2)'
-        ],
-        borderColor: [
-            'rgb(201, 203, 207)'
-        ],
-        borderWidth: 1,
-        barThickness: 30
-    }]
-};
-
-const month_data = {
-    labels: month_labels,
-    datasets: [{
-        label: "Revenue (12 Months)",
-        // data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 90, 25],
-        data: yeartotalArray,
-        backgroundColor: [
-            'rgba(201, 203, 207, 0.2)'
-        ],
-        borderColor: [
-            'rgb(201, 203, 207)'
-        ],
-        borderWidth: 1,
-        barThickness: 30
-    }]
-};
-
-async function getData(link, token_type, Method) {
-    const response = await fetch(`https://freddy.codesubmit.io/${link}`, {
-        headers: { "Authorization" : "Bearer " + sessionStorage.getItem(token_type) },
-        method: Method
-    });
-    return await response.json();
-}
-
-// TABLE LOGIC 
-function renderTable(block) {
-    // create html
-    let result = '';
-    block.forEach(row => {
-        result += `<tr>
-     <td>${row.product["name"]}</td>
-     <td>${row.created_at}</td>
-     <td>${row.units}</td>
-     <td>${row.revenue}</td>
-     </tr>`;
-    });
-
-    document.querySelector('#catTable tbody').innerHTML = result;
-}
 window.onload = async function () {
-    
+
     if (sessionStorage.getItem("access_token")) {
-        const data = await getData("dashboard", "access_token","GET");
-        // console.log(data.dashboard);
+        intDATA = await getData("dashboard", "access_token", "GET");
+      // console.log(intDATA.dashboard);
 
-        const bestSeller = Object.keys(data.dashboard.bestsellers).map(key => {
-            return data.dashboard.bestsellers[key];
+        bestSeller = Object.keys(intDATA.dashboard.bestsellers).map(key => {
+            return intDATA.dashboard.bestsellers[key];
         });
-        const weekTime = Object.keys(data.dashboard.sales_over_time_week).map(key => {
-            return data.dashboard.sales_over_time_week[key];
+        weekTime = Object.keys(intDATA.dashboard.sales_over_time_week).map(key => {
+            return intDATA.dashboard.sales_over_time_week[key];
         })
-        const yearTime = Object.keys(data.dashboard.sales_over_time_year).map(key => {
-            return data.dashboard.sales_over_time_year[key];
+        yearTime = Object.keys(intDATA.dashboard.sales_over_time_year).map(key => {
+            return intDATA.dashboard.sales_over_time_year[key];
         })
 
-        console.log(bestSeller);
-        console.log(weekTime);
-        console.log(yearTime);
-        if (data.msg) {
-            alert(data.msg);
+      // console.log(bestSeller);
+      // console.log(weekTime);
+      // console.log(yearTime);
+        if (intDATA.msg) {
+            alert(intDATA.msg);
         } else {
             dayOrder = weekTime[0].orders;
             dayTotal = weekTime[0].total;
 
-            
-            
             weekorderArray = weekTime.map((value) => {
                 return value.orders;
             });
             weektotalArray = weekTime.map((value) => {
                 return value.total;
             });
+            Days = weektotalArray;
             weekOrder = weekorderArray.reduce((a, b) => {
                 return a + b;
             });
@@ -148,6 +82,7 @@ window.onload = async function () {
             yeartotalArray = yearTime.map((value) => {
                 return value.total;
             });
+            Months = yeartotalArray;
             yearOrder = yearorderArray.reduce((a, b) => {
                 return a + b;
             });
@@ -155,28 +90,28 @@ window.onload = async function () {
                 return a + b;
             });
 
-            console.log(weekOrder);
-            console.log(weekTotal);
-            console.log(yearOrder);
-            console.log(yearTotal);
+            // console.log(weekOrder);
+            // console.log(weekTotal);
+            // console.log(yearOrder);
+            // console.log(yearTotal);
 
-            console.log(weektotalArray);
-            console.log(yeartotalArray);
-
+            // console.log(weektotalArray);
+            // console.log(yeartotalArray);
 
             document.querySelector(".day").innerHTML = `${dayTotal}/ ${dayOrder} Orders`;
             document.querySelector(".week").innerHTML = `${weekTotal}/ ${weekOrder} Orders`;
             document.querySelector(".year").innerHTML = `${yearTotal}/ ${yearOrder} Orders`;
-            renderTable(bestSeller); 
-
+            totalPages = numPages(bestSeller);;
+          // console.log(totalPages);
+            renderTable(bestSeller, current_page);
         }
         setInterval(async function () {
             newToken = await getData("refresh", "refresh_token", "POST");
-            console.log(newToken);
+          // console.log(newToken);
             if (newToken.msg) {
                 alert(newToken.msg);
             } else {
-                sessionStorage.setItem("access_token", data.access_token);
+                sessionStorage.setItem("access_token", newToken.access_token);
             }
         }, 900000);
     } else {
@@ -185,10 +120,79 @@ window.onload = async function () {
     }
 }
 
+async function getData(link, token_type, Method) {
+    const response = await fetch(`https://freddy.codesubmit.io/${link}`, {
+        headers: { "Authorization" : "Bearer " + sessionStorage.getItem(token_type) },
+        method: Method
+    });
+    return await response.json();
+}
+
+// TABLE LOGIC 
+function renderTable(block, page) {
+    // create html
+    let result = '';
+    if (block != null) {
+        block.slice(-10).forEach(row => {
+            result += `<tr>
+            <td>${row.product["name"]}</td>
+            <td>${row.units}</td>
+            <td>${row.revenue}</td>
+            </tr>`;
+        });
+    } else {
+        for (let i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
+            result += `<tr>
+                    <td>${intDATA[i].product["name"]}</td>
+                    <td>${intDATA[i].created_at}</td>
+                    <td>${intDATA[i].total}</td>
+                    <td>${intDATA[i].status}</td>
+                    </tr>`;
+        }
+    }
+
+    listing_table.innerHTML = result;
+
+    page_at.innerHTML = current_page;
+    page_total.innerHTML = totalPages;
+
+    if (current_page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (current_page == totalPages) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
 
 
+function previousPage() {
+    if (current_page > 1) {
+        current_page--;
+        renderTable(null, current_page);
+    }
+}
+
+function nextPage() {
+    if ((current_page * records_per_page) < intDATA.length) {
+        current_page++;
+        renderTable(null, current_page);
+    }
+}
 
 
+function numPages(DATA) {
+    return Math.ceil(DATA.length / records_per_page);
+}
+
+
+function Charts() {
+    
+}
 
 
 
