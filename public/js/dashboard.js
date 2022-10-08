@@ -39,11 +39,11 @@ async function getData(link, token_type, Method) {
 }
 
 // TABLE LOGIC 
-function renderTable(block, page) {
+function renderTable(blockDATA, pageNow) {
     // create html
     let result = '';
-    if (block != null) {
-        block.slice(-10).forEach(row => {
+    if (blockDATA != "null") {
+        blockDATA.slice(-10).forEach(row => {
             result += `<tr>
             <td>${row.product["name"]}</td>
             <td>${row.units}</td>
@@ -51,12 +51,11 @@ function renderTable(block, page) {
             </tr>`;
         });
     } else {
-        for (let i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
+        for (let i = (pageNow - 1) * records_per_page; i < (pageNow * records_per_page); i++) {
             result += `<tr>
-                    <td>${intDATA[i].product["name"]}</td>
-                    <td>${intDATA[i].created_at}</td>
-                    <td>${intDATA[i].total}</td>
-                    <td>${intDATA[i].status}</td>
+                    <td>${bestSeller[i].product["name"]}</td>
+                    <td>${bestSeller[i].units}</td>
+                    <td>${bestSeller[i].revenue}</td>
                     </tr>`;
         }
     }
@@ -80,17 +79,17 @@ function renderTable(block, page) {
 }
 
 
-function previousPage() {
+function prevPage() {
     if (current_page > 1) {
         current_page--;
-        renderTable(null, current_page);
+        renderTable("null", current_page);
     }
 }
 
 function nextPage() {
-    if ((current_page * records_per_page) < intDATA.length) {
+    if ((current_page * records_per_page) < bestSeller.length) {
         current_page++;
-        renderTable(null, current_page);
+        renderTable("null", current_page);
     }
 }
 
@@ -167,6 +166,7 @@ window.onload = async () => {
             yearTime = Object.keys(intDATA.dashboard.sales_over_time_year).map(key => { return intDATA.dashboard.sales_over_time_year[key]; })
 
             // console.log(bestSeller);
+            console.log(bestSeller.length);
             // console.log(weekTime);
             // console.log(yearTime);
 
@@ -194,14 +194,14 @@ window.onload = async () => {
             document.querySelector(".day").innerHTML = `${dayTotal}/ ${dayOrder} Orders`;
             document.querySelector(".week").innerHTML = `${weekTotal}/ ${weekOrder} Orders`;
             document.querySelector(".year").innerHTML = `${yearTotal}/ ${yearOrder} Orders`;
-            totalPages = numPages(bestSeller);;
+            totalPages = numPages(bestSeller);
             // console.log(totalPages);
             renderTable(bestSeller, current_page);
             printChart();
         }
         setInterval(async function () {
             newToken = await getData("refresh", "refresh_token", "POST");
-            // console.log(newToken);
+            console.log(newToken);
             if (newToken.msg) {
                 alert(newToken.msg);
             } else {

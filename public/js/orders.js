@@ -18,28 +18,17 @@ async function getData(link, token_type, Method) {
     return await response.json();
 }
 // TABLE LOGIC 
-function renderTable(block, page) {
+function renderTable(blockDATA, pageNow) {
     // create html
     let result = '';
-    if (block != null) {
-        block.slice(-10).forEach(row => {
-            result += `<tr>
-            <td>${row.product["name"]}</td>
-            <td>${row.created_at}</td>
-            <td>${row.total}</td>
-            <td>${row.status}</td>
-            </tr>`;
-        });
-    } else {
-        for (let i = (page - 1) * records_per_page; i < (page * records_per_page); i++) {
-            result += `<tr>
-                    <td>${intDATA[i].product["name"]}</td>
-                    <td>${intDATA[i].created_at}</td>
-                    <td>${intDATA[i].total}</td>
-                    <td>${intDATA[i].status}</td>
-                    </tr>`;
-        }
-    }
+    blockDATA.forEach(row => {
+        result += `<tr>
+        <td>${row.product["name"]}</td>
+        <td>${row.created_at}</td>
+        <td>${row.total}</td>
+        <td style="color:${row.status == "delivered" ? "green" : (row.status == "processing" ? "red":"black")}">${row.status}</td>
+        </tr>`;
+    });
     
     listing_table.innerHTML = result;
 
@@ -59,18 +48,20 @@ function renderTable(block, page) {
     }
 }   
 
-function previousPage() {
+async function prevPage() {
     if (current_page > 1) { 
         current_page--;
-        renderTable(null, current_page);
+        intDATA = await getData(`orders?page=${current_page}`, "access_token", "GET");
+        console.log(intDATA.orders);
+        renderTable(intDATA.orders, current_page);
     }
 }
 
-function nextPage() {
-    if ((current_page * records_per_page) < intDATA.length) {
-        current_page++;
-        renderTable(null, current_page);
-    }
+async function nextPage() {
+    current_page++;
+    intDATA = await getData(`orders?page=${current_page}`, "access_token", "GET");
+    console.log(intDATA.orders);
+    renderTable(intDATA.orders, current_page);
 }
 async function search(srchParam) {
     const searchData = await getData(`orders?page=${current_page}&q=${srchParam.value}`, "access_token", "GET");
@@ -78,7 +69,8 @@ async function search(srchParam) {
     if (searchData.msg) {
         alert(searchData.msg);
     } else {
-        totalPages = numPages(searchData.orders);
+        current_page = searchData.page;
+        totalPages = searchData.total;
         renderTable(searchData.orders, current_page);
     }
 }
@@ -89,16 +81,15 @@ function numPages(DATA) {
 }
 
 window.onload = async function () {
-
-
     if (sessionStorage.getItem("access_token")) {
-        intDATA = await getData(`orders?page=${current_page}&q=${search}`, "access_token", "GET");
+        intDATA = await getData(`orders?page=${current_page}`, "access_token", "GET");
         console.log(intDATA.orders);
         if (intDATA.msg) {
             alert(intDATA.msg);
         } else {
-            totalPages = numPages(intDATA.orders);
-            console.log(totalPages);
+            // records_per_page = intDATA.orders.length;
+            current_page = intDATA.page;
+            totalPages = intDATA.total;
             renderTable(intDATA.orders, current_page);
         }
         setInterval(async function () {

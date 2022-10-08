@@ -172,13 +172,15 @@
   position: absolute;
 }
 .see {
-  visibility: hidden;
+  /* visibility: hidden; */
+  display: none !important; 
 }
 .rev {
   display: flex;
-  justify-content: space-between;             
-  align-items: center;                          
+  justify-content: space-between;                       
 }
+/* .rev .title {position: relative;} */
+/* .rev .title span {position: absolute;} */
 
 .bestseller {
   padding: 1rem 3rem;
