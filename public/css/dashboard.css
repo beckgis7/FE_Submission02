@@ -172,8 +172,11 @@
   position: absolute;
 }
 .see {
+  visibility: hidden !important;
+}
+.seeT {
   /* visibility: hidden; */
-  display: none !important; 
+  display: none !important;
 }
 .rev {
   display: flex;

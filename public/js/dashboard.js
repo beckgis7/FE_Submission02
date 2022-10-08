@@ -148,9 +148,11 @@ async function printChart() {
     );
 
     document.querySelector("#revtoggle").addEventListener("click", function () {
+        document.querySelector(".my").classList.toggle("seeT");
+        document.querySelector(".my").classList.toggle("seeT");
         document.querySelector(".myDays").classList.toggle("see");
         document.querySelector(".myMonths").classList.toggle("see");
-    })
+    });
 }
 
 window.onload = async () => {
@@ -207,7 +209,7 @@ window.onload = async () => {
             } else {
                 sessionStorage.setItem("access_token", newToken.access_token);
             }
-        }, 900000);
+        }, 800000);
     } else {
         window.location = "./signin.html";
         window.location.href(`${window.location}`);
