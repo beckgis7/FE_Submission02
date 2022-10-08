@@ -148,10 +148,10 @@ async function printChart() {
     );
 
     document.querySelector("#revtoggle").addEventListener("click", function () {
-        document.querySelector(".my").classList.toggle("seeT");
-        document.querySelector(".my").classList.toggle("seeT");
-        document.querySelector(".myDays").classList.toggle("see");
-        document.querySelector(".myMonths").classList.toggle("see");
+        document.querySelector(".myD").classList.toggle("seeT");
+        document.querySelector(".myM").classList.toggle("seeT");
+        document.querySelector(".myDays").classList.toggle("seeT");
+        document.querySelector(".myMonths").classList.toggle("seeT");
     });
 }
 

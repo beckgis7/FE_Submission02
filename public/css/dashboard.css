@@ -171,11 +171,7 @@
 .revenue .card canvas {
   position: absolute;
 }
-.see {
-  visibility: hidden !important;
-}
 .seeT {
-  /* visibility: hidden; */
   display: none !important;
 }
 .rev {
