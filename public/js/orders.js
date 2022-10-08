@@ -59,33 +59,6 @@ function renderTable(block, page) {
     }
 }   
 
-window.onload = async function () {
-    
-
-    if (sessionStorage.getItem("access_token")) {
-        intDATA = await getData(`orders?page=${current_page}&q=${search}`, "access_token", "GET");
-        console.log(intDATA.orders);
-        if (intDATA.msg) {
-            alert(intDATA.msg);
-        } else {
-            totalPages = numPages(intDATA.orders);
-            console.log(totalPages);
-            renderTable(intDATA.orders, current_page); 
-        }
-        setInterval(async function () {
-            newToken = await getData("refresh", "refresh_token", "POST");
-            console.log(newToken);
-            if (newToken.msg) {
-                alert(newToken.msg);
-            } else {
-                sessionStorage.setItem("access_token", newToken.access_token);
-            }
-        }, 900000);
-    } else {
-        window.location = "./signin.html";
-        window.location.href(`${window.location}`);
-    }
-}
 function previousPage() {
     if (current_page > 1) { 
         current_page--;
@@ -115,6 +88,33 @@ function numPages(DATA) {
     return Math.ceil(DATA.length / records_per_page);
 }
 
+window.onload = async function () {
+
+
+    if (sessionStorage.getItem("access_token")) {
+        intDATA = await getData(`orders?page=${current_page}&q=${search}`, "access_token", "GET");
+        console.log(intDATA.orders);
+        if (intDATA.msg) {
+            alert(intDATA.msg);
+        } else {
+            totalPages = numPages(intDATA.orders);
+            console.log(totalPages);
+            renderTable(intDATA.orders, current_page);
+        }
+        setInterval(async function () {
+            newToken = await getData("refresh", "refresh_token", "POST");
+            console.log(newToken);
+            if (newToken.msg) {
+                alert(newToken.msg);
+            } else {
+                sessionStorage.setItem("access_token", newToken.access_token);
+            }
+        }, 900000);
+    } else {
+        window.location = "./signin.html";
+        window.location.href(`${window.location}`);
+    }
+}
 
 function logout() {
     sessionStorage.clear;
